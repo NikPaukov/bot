@@ -6,6 +6,7 @@ import os
 
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = config.TOKEN
+userDB = dict()
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -16,21 +17,12 @@ def help(update, context):
     user_id = update.message.from_user.id
     username = update.message.from_user.first_name
     isBot = update.message.from_user.is_bot
-    with open(str(update.message.chat.id) + '.txt', 'a') as f:
-        pass
-    with open(str(update.message.chat.id) + '.txt') as f:
-        lines = f.readline()
-        lines_split = lines.split(" ")
-        exists = False
-        for line in lines:
-            if str(user_id) in line:
-                exists = True
-        if not exists and not isBot:
-            with open(str(update.message.chat.id) + '.txt', "a") as f1:
-                f1.write(' ' + str(user_id) + ':' + str(username))
+
+    if user_id not in userDB.keys():
+        userDB.update({user_id: username})
     if 'vm.tiktok.com' in update.message.text:
-        rand_user = str(lines_split[random.randint(1, len(lines_split)) - 1])
-        update.message.reply_text("[Згоден, " + rand_user[1] + "?](tg://user?id=" + rand_user[0] + ")",
+        rand_user = str(random.randint(0, len(userDB)) - 1)
+        update.message.reply_text("[Згоден, " + userDB[rand_user] + "?](tg://user?id=" + rand_user + ")",
                                   parse_mode="Markdown")
 
 
