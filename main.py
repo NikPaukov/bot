@@ -23,7 +23,7 @@ def help(update, context):
         rand_user = random.choice(list(userDB.keys()))
 
         update.message.reply_text(
-            "[Згоден, " + userDB[rand_user] + "?" + str(rand_user) + "](tg://user?id=" + rand_user + ")",
+            "[Згоден, " + userDB[rand_user] + "?" + str(rand_user) + "](tg://user?id=" + str(rand_user) + ")",
             parse_mode="Markdown")
 
 
