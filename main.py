@@ -20,9 +20,11 @@ def help(update, context):
     if user_id not in userDB.keys():
         userDB.update({user_id: username})
     if 'vm.tiktok.com' in update.message.text:
-        rand_user = str(random.randint(0, len(userDB)) - 1)
-        update.message.reply_text("[Згоден, " + userDB[rand_user] + "?" + rand_user + "](tg://user?id=" + rand_user + ")",
-                                  parse_mode="Markdown")
+        rand_user = str(random.choice(list(userDB.keys())))
+
+        update.message.reply_text(
+            "[Згоден, " + userDB[rand_user] + "?" + rand_user + "](tg://user?id=" + rand_user + ")",
+            parse_mode="Markdown")
 
 
 def main():
